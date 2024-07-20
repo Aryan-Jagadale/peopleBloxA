@@ -18,4 +18,4 @@ export const formContent = {
     }
   };
   
-  export const server = "http://18.116.59.115:4000/api/v1"
+  export const server = "https://peoplebloxa.onrender.com/api/v1"
