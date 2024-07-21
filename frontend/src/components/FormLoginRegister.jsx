@@ -16,14 +16,31 @@ const FormLoginRegister = ({ type = "register", setRerun }) => {
     setPassword("");
   }, [type]);
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const validatePassword = (password) => {
+    const minLength = 2; 
+    const hasNumber = /\d/; 
+    const hasLetter = /[a-zA-Z]/; 
+    return password.length >= minLength && hasNumber.test(password) && hasLetter.test(password);
+  };
+
   const handleSubmit = async () => {
     if (!email || !password) {
       toast.error("Email and password are required!");
       return;
     }
 
-    if (!_.isString(email) || !_.isString(password)) {
-      toast.error("Invalid email or password");
+    if (!validateEmail(email)) {
+      toast.error("Invalid email format!");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      toast.error("Password must be at least 2 characters long and contain both letters and numbers.");
       return;
     }
 
@@ -60,13 +77,9 @@ const FormLoginRegister = ({ type = "register", setRerun }) => {
       if (error.response.status === 400) {
         toast.error("User already exists!");
       } else if (error.response.status === 403 && type === "login") {
-        toast.error(
-          "Account is locked for 24 hours due to multiple failed login attempts.!"
-        );
+        toast.error("Account is locked for 24 hours due to multiple failed login attempts.!");
       } else if (error.response.status === 401 && type === "login") {
-        toast.error(
-          "Unauthorized!"
-        );
+        toast.error("Unauthorized!");
       } else {
         toast.error("Something went wrong!");
       }
