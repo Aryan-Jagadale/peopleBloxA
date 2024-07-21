@@ -9,11 +9,13 @@ const app = express();
 const port = 4000;
 console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
 console.log("FRONTEND_URL:", process.env.FRONTEND_URL_BUILD);
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL_PROD);
+
 
 // Using Middlewares
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL, process.env.FRONTEND_URL_BUILD],
+    origin: [process.env.FRONTEND_URL, process.env.FRONTEND_URL_BUILD,process.env.FRONTEND_URL_PROD],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
